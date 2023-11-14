@@ -1,0 +1,100 @@
+
+h1{
+    width: auto;
+    margin-top: 30px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    text-align: center;
+    margin: 0 15% 20px 15%;
+    padding-bottom: 15px;
+   
+}
+article p {
+    font-size: 16px;
+}
+#msform {
+	width: 400px;
+	margin:auto;
+	text-align: center;
+	position: relative;
+}
+#msform fieldset {
+	background: black;
+	border: 0 none;
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+	padding: 10px 10px;
+	box-sizing: border-box;
+	width: 100%;
+	height: 15%;
+   
+	position: relative;
+}
+#msform fieldset:not(:first-of-type) {
+	display: none;
+}
+/*inputs*/
+#msform input, #msform textarea {
+	padding: 15px;
+	border: 1px solid #ccc;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	color: #2C3E50;
+	font-size: 16px;
+    height: 15%;
+}
+
+/*buttons*/
+#msform .action-button {
+	width: 100px;
+	background: orange;
+	color: white;
+	border: 0 none;
+	cursor: pointer;
+	padding: 10px;
+	margin: 10px 5px;
+  text-decoration: none;
+  font-size: 16px;
+}
+#msform .mess{
+    height: 200px;
+    margin-top: 0;
+	font-size: 16px;
+}
+#msform .action-button:hover, #msform .action-button:focus {
+	box-shadow: 0 0 0 2px white, 0 0 0 3px orange;
+}
+/*headings*/
+.fs-title {
+	font-size: 16px;
+	text-transform: uppercase;
+	color: #2C3E50;
+	margin-bottom: 10px;
+}
+.fs-subtitle {
+	font-weight: normal;
+	font-size: 16px;
+	color: #666;
+	margin-bottom: 20px;
+}
+
+@media (max-width: 760px) {
+    #msform {
+       
+		font-size: 8px;
+		width: 50%;
+		
+	
+    }
+	#msform .mess{
+		height: 80%;
+
+}h1{
+	font-size: small;
+	text-align: center;
+}
+}
+

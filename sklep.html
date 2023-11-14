@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Endless Studio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrapper">
+    <header>
+        <center><a href="index.html"><img src="logo.png" class="logo" alt="logo"></a></center>
+
+    <nav>
+        <a class="menu active" href="onas.html">O NAS</a>
+        <a class="menu" href="sukcesy.html">SUKCESY</a>
+        <a class="menu" href="rekomendacje.html">REKOMENDACJE</a>
+        <a class="menu" href="sklep.html">SKLEP</a>
+        <a class="menu" href="kontakt.html">NAPISZ DO NAS</a>
+    </nav>
+</header>
+<section>
+    <article>
+        <h1>SKLEP</h1>
+    </article>
+</section>
+    <div class="sklep">        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>PODAJ KOD ABY POBRAĆ PLIK</h1>
+                    <input type="text" id="codeInput" placeholder="Wprowadź kod">
+                    <button id="downloadButton">Pobierz</button>
+                    <p id="errorMessage" style="color: red; display: flex;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer-content">
+            <p>ZNAJDŹ NAS</p>
+            <ul class="socials">
+                <li><a href="https://www.facebook.com/profile.php?id=100089155897828" target="_blank" class="btn btn-link"><i class="bi bi-facebook"></i></a></li>
+                <li><a href="https://www.instagram.com/_endless_crew_?fbclid=IwAR17YSJOg1pWKmc11ZTQLiZc-FU5bjBk5Zm9b0TxkrcoyQ2ovExqZVOq8DQ" target="_blank" class="btn btn-link"><i class="bi bi-instagram"></i></a></li>
+                <li><a href="https://www.youtube.com/@karol_stawecki" target="_blank" class=" btn btn-link"><i class="bi bi-youtube"></i></a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>Copyright &copy;2023 Endless Studio. designed by <span>ADAMSKA</span></p>
+        </div>
+    </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("downloadButton").addEventListener("click", function () {
+                var codeInput = document.getElementById("codeInput").value;
+                var errorMessage = document.getElementById("errorMessage");
+                
+                if (codeInput === "<!DOCTYPE html>") {
+                    errorMessage.style.display = "none"; 
+                } else {
+                    errorMessage.style.display = "flex"; // lub inna wartość, np. "inline-block"
+                    errorMessage.style.color = "red";
+                    errorMessage.innerText = "Błędny kod! Spróbuj jeszcze raz!";
+                    errorMessage.style.alignItems = "center";
+                    errorMessage.style.justifyContent = "center";
+                    errorMessage.style.marginTop = "4px";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
