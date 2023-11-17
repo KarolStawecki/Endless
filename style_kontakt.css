@@ -7,8 +7,7 @@ h1{
 
 h1 {
     font-size: 3rem;
-
-    padding-bottom: 15px;
+	padding-bottom: 15px;
    
 }
 h2{
@@ -16,6 +15,10 @@ h2{
 }
 article p {
     font-size: 16px;
+}
+.col-md-6{
+	
+	
 }
 #msform {
 	width: 400px;
@@ -37,7 +40,7 @@ article p {
 #msform fieldset:not(:first-of-type) {
 	display: none;
 }
-/*inputs*/
+
 #msform input, #msform textarea {
 	padding: 15px;
 	border: 1px solid #ccc;
@@ -49,7 +52,7 @@ article p {
     height: 15%;
 }
 
-/*buttons*/
+
 #msform .action-button {
 	width: 100px;
 	background: orange;
@@ -62,14 +65,14 @@ article p {
   font-size: 16px;
 }
 #msform .mess{
-    height: 200px;
+    height: 150px;
     margin-top: 0;
 	font-size: 16px;
 }
 #msform .action-button:hover, #msform .action-button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px orange;
 }
-/*headings*/
+
 .fs-title {
 	font-size: 16px;
 	text-transform: uppercase;
@@ -83,23 +86,30 @@ article p {
 	margin-bottom: 20px;
 }
 
-@media (max-width: 760px) {
-    #msform {
-		
-		font-size: 8px;
-		width: 50%;
-		
-	
-    }
+@media (max-width: 1400px) {
 	#msform .mess{
 		height: 80%;
 
 }h1{
 	font-size: 2rem;
 	text-align: center;
+}
+#msform input, #msform textarea{
+	width: 80%;
+}
+}
+
+@media (max-width: 800px) {
+    #msform {
+		font-size: 8px;
+		width: 50%;
 	
-}h2{
-	font-size: 1.5rem;
+    }
+	#msform .mess{
+		height: 60%;
+
+}h1{
+	font-size: 2rem;
 	text-align: center;
 }
 }
