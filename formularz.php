@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail = $_POST["mail"];
     $wiadomosc = $_POST["wiadomosc"];
     
-    $to = "mail@endlessstudio.pl";
+    $to = "kontakt@endlessstudio.pl";
     $subject = "Nowa wiadomość od $imie $nazwisko";
     $message = "Wiadomość od: $imie $nazwisko\nEmail: $mail\nWiadomość:\n$wiadomosc";
     $headers = "From: $mail";
