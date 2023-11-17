@@ -7,10 +7,12 @@ h1{
 
 h1 {
     font-size: 3rem;
-    text-align: center;
-    margin: 0 15% 20px 15%;
+
     padding-bottom: 15px;
    
+}
+h2{
+	color: orange;
 }
 article p {
     font-size: 16px;
@@ -83,7 +85,7 @@ article p {
 
 @media (max-width: 760px) {
     #msform {
-       
+		
 		font-size: 8px;
 		width: 50%;
 		
@@ -93,7 +95,7 @@ article p {
 		height: 80%;
 
 }h1{
-	font-size: small;
+	font-size: 2rem;
 	text-align: center;
 }
 }
