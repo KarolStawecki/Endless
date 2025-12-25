@@ -26,7 +26,7 @@ button {
 <body>
 
 <h1>NFC SCAN 2</h1>
-<button id="scan">Skanuj NFC</button>
+<button id="scan">Skanuj NFC 2</button>
 
 <div id="result"></div>
 
@@ -65,10 +65,10 @@ document.getElementById("scan").addEventListener("click", async () => {
 
             if (tagOk && textOk) {
                 result.style.color = "green";
-                result.textContent = "dobry nfc";
+                result.textContent = "dobry nfc 2";
             } else {
                 result.style.color = "red";
-                result.textContent = "zły nfc tag";
+                result.textContent = "zły nfc tag 2";
             }
 
             console.log("TAG ID:", tagId);
@@ -83,4 +83,5 @@ document.getElementById("scan").addEventListener("click", async () => {
 
 </body>
 </html>
+
 
