@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NFC Scan</title>
+<title>NFC Scan 3</title>
 
 <style>
 body {
@@ -25,20 +25,23 @@ button {
 
 <body>
 
-<h1>NFC SCAN 2</h1>
-<button id="scan">Skanuj NFC 2</button>
+<h1>NFC SCAN 3</h1>
+<button id="scan">Skanuj NFC 3</button>
 
 <div id="result"></div>
 
 <script>
-const GOOD_TAG_ID_HEX = "042AD7261290"; // <-- poprawne ID
+/* POPRAWNE DANE NFC – dokładnie jak na screenie */
+const GOOD_TAG_ID = "BKatcgQSkA==";
 const GOOD_NDEF_TEXT = "1234";
 
 const result = document.getElementById("result");
+const scanBtn = document.getElementById("scan");
 
-document.getElementById("scan").addEventListener("click", async () => {
+scanBtn.addEventListener("click", async () => {
 
     if (!("NDEFReader" in window)) {
+        result.style.color = "red";
         result.textContent = "Brak obsługi NFC";
         return;
     }
@@ -46,11 +49,13 @@ document.getElementById("scan").addEventListener("click", async () => {
     try {
         const ndef = new NDEFReader();
         await ndef.scan();
+
+        result.style.color = "black";
         result.textContent = "Zbliż tag NFC...";
 
         ndef.onreading = event => {
 
-            const tagId = event.serialNumber?.toUpperCase();
+            const tagId = event.serialNumber;
             let ndefText = "";
 
             for (const record of event.message.records) {
@@ -60,28 +65,27 @@ document.getElementById("scan").addEventListener("click", async () => {
                 }
             }
 
-            const tagOk = tagId === GOOD_TAG_ID_HEX;
+            const tagOk = tagId === GOOD_TAG_ID;
             const textOk = ndefText === GOOD_NDEF_TEXT;
 
             if (tagOk && textOk) {
                 result.style.color = "green";
-                result.textContent = "dobry nfc 2";
+                result.textContent = "dobry nfc 3";
             } else {
                 result.style.color = "red";
-                result.textContent = "zły nfc tag 2";
+                result.textContent = "zły nfc 3";
             }
 
             console.log("TAG ID:", tagId);
-            console.log("NDEF:", ndefText);
+            console.log("NDEF TEXT:", ndefText);
         };
 
-    } catch (e) {
-        result.textContent = "Błąd NFC: " + e;
+    } catch (err) {
+        result.style.color = "red";
+        result.textContent = "Błąd NFC: " + err;
     }
 });
 </script>
 
 </body>
 </html>
-
-
