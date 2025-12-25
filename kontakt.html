@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFC Test</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 40px;
-        }
-        button {
-            font-size: 18px;
-            padding: 15px 25px;
-        }
-        #result {
-            margin-top: 30px;
-            font-size: 28px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NFC Scan</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 50px;
+}
+button {
+    font-size: 18px;
+    padding: 15px 25px;
+}
+#result {
+    margin-top: 30px;
+    font-size: 26px;
+    font-weight: bold;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Skanuj NFC</h1>
-<button id="scan">Rozpocznij skanowanie</button>
+<h1>NFC SCAN</h1>
+<button id="scan">Skanuj NFC</button>
 
 <div id="result"></div>
 
 <script>
-const GOOD_TAG_ID = "BKatcgQSkA==";
-const GOOD_TEXT = "1234";
+const GOOD_TAG_ID_HEX = "042AD7261290"; // <-- poprawne ID
+const GOOD_NDEF_TEXT = "1234";
 
 const result = document.getElementById("result");
-const button = document.getElementById("scan");
 
-button.addEventListener("click", async () => {
+document.getElementById("scan").addEventListener("click", async () => {
+
     if (!("NDEFReader" in window)) {
-        result.textContent = "Twoja przeglądarka nie obsługuje NFC";
+        result.textContent = "Brak obsługi NFC";
         return;
     }
 
@@ -47,27 +49,34 @@ button.addEventListener("click", async () => {
         result.textContent = "Zbliż tag NFC...";
 
         ndef.onreading = event => {
-            const tagId = event.serialNumber; // ID taga
-            let text = "";
+
+            const tagId = event.serialNumber?.toUpperCase();
+            let ndefText = "";
 
             for (const record of event.message.records) {
                 if (record.recordType === "text") {
                     const decoder = new TextDecoder(record.encoding);
-                    text = decoder.decode(record.data);
+                    ndefText = decoder.decode(record.data);
                 }
             }
 
-            if (tagId === GOOD_TAG_ID && text === GOOD_TEXT) {
-                result.textContent = "dobry nfc";
+            const tagOk = tagId === GOOD_TAG_ID_HEX;
+            const textOk = ndefText === GOOD_NDEF_TEXT;
+
+            if (tagOk && textOk) {
                 result.style.color = "green";
+                result.textContent = "dobry nfc";
             } else {
-                result.textContent = "zły nfc tag";
                 result.style.color = "red";
+                result.textContent = "zły nfc tag";
             }
+
+            console.log("TAG ID:", tagId);
+            console.log("NDEF:", ndefText);
         };
 
-    } catch (error) {
-        result.textContent = "Błąd NFC: " + error;
+    } catch (e) {
+        result.textContent = "Błąd NFC: " + e;
     }
 });
 </script>
