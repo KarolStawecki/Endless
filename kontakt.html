@@ -3,81 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Endless Studio</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="style_kontakt.css">
+    <title>NFC Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+        }
+        button {
+            font-size: 18px;
+            padding: 15px 25px;
+        }
+        #result {
+            margin-top: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div id="wrapper">
-    <header>
-        <center><a href="index.html"><img src="logo.png" class="logo" alt="logo"></a></center>
-        
-    <nav>
-        <a class="menu active" href="onas.html">O NAS</a>
-        <a class="menu" href="sukcesy.html">SUKCESY</a>
-        <a class="menu" href="rekomendacje.html">REKOMENDACJE</a>
-        <a class="menu" href="sklep.html">SKLEP</a>
-        <a class="menu" href="kontakt.html">KONTAKT</a>
-    </nav>
-</header>
-<section>
-    <article>
-        <h1>KONTAKT</h1>
-    </article>
-</section>
-<section id="contact-form">
-    <div class="kontakt">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <form id="msform" action="formularz.php" method="post">
-                    <h1>Napisz do nas</h1>
-                    <fieldset>
-                        <input type="text" name="imie" placeholder="Imię" />
-                        <input type="text" name="nazwisko" placeholder="Nazwisko" />
-                        <input type="text" name="mail" placeholder="Email" />
-                        <input type="text" name="wiadomosc" placeholder="Twoja wiadomość" class="mess" />
-                        <input type="submit" name="submit" class="next action-button" value="WYŚLIJ" />
-                    </fieldset>
-                </form>
 
-            </div>
-            <div class="col-md-6">
-                <h1>Skontaktuj się z nami</h1>
-               
-                <h2><a href="mailto:kontakt@endlessstudio.pl">kontakt@endlessstudio.pl</a></h2>
-                <h2><a href="tel:+48797957527">+48 797 957 527</a></h2>
-            </div>
-        </div>
-    </div>
-    </div>
-</section>
-    
-    <footer>
-        <div class="footer-content">
-            <p>ZNAJDŹ NAS</p>
-            <ul class="socials">
-                <li><a href="https://www.facebook.com/profile.php?id=100089155897828" target="_blank" class="btn btn-link"><i class="bi bi-facebook"></i></a></li>
-                <li><a href="https://www.instagram.com/_endless_crew_?fbclid=IwAR17YSJOg1pWKmc11ZTQLiZc-FU5bjBk5Zm9b0TxkrcoyQ2ovExqZVOq8DQ" target="_blank" class="btn btn-link"><i class="bi bi-instagram"></i></a></li>
-                <li><a href="https://www.youtube.com/@karol_stawecki" target="_blank" class=" btn btn-link"><i class="bi bi-youtube"></i></a></li>
-            </ul>
-        </div>
-        <div class="footer-bottom">
-            <p>Copyright &copy;2023 Endless Studio. designed by <span>ADAMSKA</span></p>
-        </div>
-    </footer>
-    </div>
+<h1>Skanuj NFC</h1>
+<button id="scan">Rozpocznij skanowanie</button>
 
-    
+<div id="result"></div>
+
+<script>
+const GOOD_TAG_ID = "BKatcgQSkA==";
+const GOOD_TEXT = "1234";
+
+const result = document.getElementById("result");
+const button = document.getElementById("scan");
+
+button.addEventListener("click", async () => {
+    if (!("NDEFReader" in window)) {
+        result.textContent = "Twoja przeglądarka nie obsługuje NFC";
+        return;
+    }
+
+    try {
+        const ndef = new NDEFReader();
+        await ndef.scan();
+        result.textContent = "Zbliż tag NFC...";
+
+        ndef.onreading = event => {
+            const tagId = event.serialNumber; // ID taga
+            let text = "";
+
+            for (const record of event.message.records) {
+                if (record.recordType === "text") {
+                    const decoder = new TextDecoder(record.encoding);
+                    text = decoder.decode(record.data);
+                }
+            }
+
+            if (tagId === GOOD_TAG_ID && text === GOOD_TEXT) {
+                result.textContent = "dobry nfc";
+                result.style.color = "green";
+            } else {
+                result.textContent = "zły nfc tag";
+                result.style.color = "red";
+            }
+        };
+
+    } catch (error) {
+        result.textContent = "Błąd NFC: " + error;
+    }
+});
+</script>
+
 </body>
 </html>
