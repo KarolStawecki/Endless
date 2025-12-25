@@ -3,46 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NFC Scan 3</title>
+<title>NFC Scan 4</title>
 
 <style>
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 40px;
 }
 button {
     font-size: 18px;
     padding: 15px 25px;
 }
 #result {
-    margin-top: 30px;
+    margin-top: 25px;
     font-size: 26px;
     font-weight: bold;
+}
+#reason {
+    margin-top: 10px;
+    font-size: 16px;
+}
+.ok {
+    color: green;
+}
+.fail {
+    color: red;
+}
+.info {
+    color: #333;
 }
 </style>
 </head>
 
 <body>
 
-<h1>NFC SCAN 3</h1>
-<button id="scan">Skanuj NFC 3</button>
+<h1>NFC SCAN 4</h1>
+<button id="scan">Skanuj NFC 4</button>
 
 <div id="result"></div>
+<div id="reason"></div>
 
 <script>
-/* POPRAWNE DANE NFC – dokładnie jak na screenie */
-const GOOD_TAG_ID = "BKatcgQSkA==";
 const GOOD_NDEF_TEXT = "1234";
 
 const result = document.getElementById("result");
-const scanBtn = document.getElementById("scan");
+const reason = document.getElementById("reason");
 
-scanBtn.addEventListener("click", async () => {
+document.getElementById("scan").addEventListener("click", async () => {
+
+    result.textContent = "";
+    reason.textContent = "";
 
     if (!("NDEFReader" in window)) {
-        result.style.color = "red";
         result.textContent = "Brak obsługi NFC";
+        result.className = "fail";
+        reason.textContent = "Przeglądarka nie obsługuje Web NFC.";
         return;
     }
 
@@ -50,39 +66,50 @@ scanBtn.addEventListener("click", async () => {
         const ndef = new NDEFReader();
         await ndef.scan();
 
-        result.style.color = "black";
         result.textContent = "Zbliż tag NFC...";
+        result.className = "info";
 
         ndef.onreading = event => {
 
-            const tagId = event.serialNumber;
+            let foundTextRecord = false;
             let ndefText = "";
 
             for (const record of event.message.records) {
                 if (record.recordType === "text") {
                     const decoder = new TextDecoder(record.encoding);
-                    ndefText = decoder.decode(record.data);
+                    ndefText = decoder.decode(record.data).trim();
+                    foundTextRecord = true;
+                    break;
                 }
             }
 
-            const tagOk = tagId === GOOD_TAG_ID;
-            const textOk = ndefText === GOOD_NDEF_TEXT;
-
-            if (tagOk && textOk) {
-                result.style.color = "green";
-                result.textContent = "dobry nfc 3";
-            } else {
-                result.style.color = "red";
-                result.textContent = "zły nfc 3";
+            if (!foundTextRecord) {
+                result.textContent = "zły nfc";
+                result.className = "fail";
+                reason.textContent = "Brak rekordu TEXT w NDEF.";
+                return;
             }
 
-            console.log("TAG ID:", tagId);
+            if (ndefText !== GOOD_NDEF_TEXT) {
+                result.textContent = "zły nfc";
+                result.className = "fail";
+                reason.textContent =
+                    `Nieprawidłowa treść NDEF. Oczekiwano "${GOOD_NDEF_TEXT}", otrzymano "${ndefText}".`;
+                return;
+            }
+
+            result.textContent = "dobry nfc";
+            result.className = "ok";
+            reason.textContent = "Treść rekordu TEXT jest poprawna.";
+
             console.log("NDEF TEXT:", ndefText);
+            console.log("SERIAL (informacyjnie):", event.serialNumber);
         };
 
-    } catch (err) {
-        result.style.color = "red";
-        result.textContent = "Błąd NFC: " + err;
+    } catch (e) {
+        result.textContent = "Błąd NFC";
+        result.className = "fail";
+        reason.textContent = "Wyjątek: " + e;
     }
 });
 </script>
